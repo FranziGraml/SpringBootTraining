@@ -21,6 +21,7 @@ public class ToDo {
 
     private String title;
     private String description;
+    private Boolean status;
 
 
 
