@@ -19,12 +19,14 @@ public class ToDoService {
 
     /**
      * Fügt ein neues Element zur Datenbank hinzu
-     * @param toDo
      *
+     * @param toDo
+     * @return
      */
-    public void createToDo(ToDo toDo) {
+    public ToDo createToDo(ToDo toDo) {
          toDoRepository.save(toDo);
 
+        return toDo;
     }
 
     /**
@@ -37,6 +39,7 @@ public class ToDoService {
                 () -> new EntityNotFoundException("ToDo wurde nicht gefunden"));
         updatedToDo.setTitle(toDo.getTitle());
         updatedToDo.setDescription(toDo.getDescription());
+        updatedToDo.setStatus(toDo.getStatus());
         this.toDoRepository.save(updatedToDo);
     }
 
@@ -46,6 +49,12 @@ public class ToDoService {
      */
     public void deleteTodo(Long Id) {
         toDoRepository.deleteById(Id);
+    }
+
+    public ToDo getToDo(Long id) {
+        return toDoRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("TODO mit ID wurde nicht gefunden!")
+        );
     }
 
     /**
