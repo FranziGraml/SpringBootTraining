@@ -22,11 +22,11 @@ public class GlobalExceptionHandling extends ResponseEntityExceptionHandler {
 
 private final MessageSource nSource;
 
-   /* @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(RuntimeException rex) {
         logger.warn("INTERNAL SERVER ERROR");
         return new ResponseEntity<>(ErrorResponse.create(rex, HttpStatus.INTERNAL_SERVER_ERROR, rex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-    }*/
+    }
 
 
     @ExceptionHandler(EntityNotFoundException.class)
