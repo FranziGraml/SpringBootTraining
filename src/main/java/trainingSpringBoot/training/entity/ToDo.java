@@ -1,6 +1,7 @@
 package trainingSpringBoot.training.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,8 @@ public class ToDo {
     private String title;
     private String description;
     private Boolean status;
+
+
 
 
 

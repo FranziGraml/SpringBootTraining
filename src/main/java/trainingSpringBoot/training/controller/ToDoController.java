@@ -1,8 +1,13 @@
 package trainingSpringBoot.training.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
+import trainingSpringBoot.training.dto.ToDoCreateDTO;
+import trainingSpringBoot.training.dto.ToDoUpdateDTO;
 import trainingSpringBoot.training.entity.ToDo;
+
 import trainingSpringBoot.training.service.ToDoService;
 
 import java.util.List;
@@ -14,15 +19,26 @@ import java.util.List;
 public class ToDoController {
 
     private final ToDoService toDoService;
+    private final ModelMapper modelMapper;
 
     @PostMapping
-    public ToDo createToDo(@RequestBody ToDo toDo){
-        return toDoService.createToDo(toDo);
+    public ToDo createToDo(@Valid @RequestBody ToDoCreateDTO toDoCreateDTO){
+        ToDo toDo = new ToDo();
+        toDo.setDescription(toDoCreateDTO.getDescription());
+
+        return this.toDoService.createToDo(modelMapper.map(toDoCreateDTO,ToDo.class));
     }
 
-    @PutMapping(value = "/{id}")
-    public void updatedToDo(@PathVariable Long id, @RequestBody ToDo updatedToDo){
-        toDoService.updatedToDo(updatedToDo);
+    @PutMapping
+    public ToDo updatedToDo(@Valid @RequestBody ToDoUpdateDTO toDoUpdateDTO){
+        ToDo toDo = new ToDo();
+        toDo.setId(toDoUpdateDTO.getId());
+        toDo.setTitle(toDoUpdateDTO.getTitle());
+        toDo.setDescription(toDoUpdateDTO.getDescription());
+        toDo.setStatus(toDoUpdateDTO.getStatus());
+        modelMapper.map(toDoUpdateDTO, toDo);
+
+        return this.toDoService.updatedToDo(toDo);
     }
 
     @DeleteMapping(value = "/{id}")
