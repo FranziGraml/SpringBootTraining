@@ -44,7 +44,7 @@ public class ToDoService {
      */
     public ToDo updatedToDo(ToDo toDo) {
         ToDo updatedToDo = toDoRepository.findById(toDo.getId()).orElseThrow(
-                () -> new EntityNotFoundException("ToDo wurde nicht gefunden"));
+                () -> new EntityNotFoundException("Not found"));
         updatedToDo.setTitle(toDo.getTitle());
         updatedToDo.setDescription(toDo.getDescription());
         updatedToDo.setStatus(toDo.getStatus());
@@ -62,7 +62,7 @@ public class ToDoService {
 
     public ToDo getToDo(Long id) {
         return toDoRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("TODO mit ID wurde nicht gefunden!")
+                () -> new EntityNotFoundException("There is no Entity with this ID!")
         );
     }
 
