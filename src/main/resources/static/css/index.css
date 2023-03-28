@@ -1,0 +1,17 @@
+
+h1{
+    color: blueviolet;
+    text-align: center;
+    font-family: "Copperplate";
+    font-size: 40px;
+}
+
+body{
+
+    background-image: url('../images/back.jpg') ;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
