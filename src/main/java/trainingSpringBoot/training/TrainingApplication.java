@@ -19,4 +19,3 @@ public class TrainingApplication {
 
 
 
-//   BN: user
