@@ -2,7 +2,6 @@ package trainingSpringBoot.training.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import trainingSpringBoot.training.entity.ToDo;
 import trainingSpringBoot.training.repository.ToDoRepository;
@@ -39,7 +38,6 @@ public class ToDoService {
      * Überprüft alle vorhandenen todos.
      * wenn kein Element mit angegebener id gefunden wird, wird ein neues erstellt
      *
-     * @param toDo
      * @return
      */
     public ToDo updatedToDo(ToDo toDo) {
