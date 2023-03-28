@@ -151,6 +151,7 @@ public class ToDoControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+
     @Test
     public void updatedToDo() throws Exception {
         ToDo updatedToDo = new ToDo(2L, "Update", "lernen", false);
@@ -167,6 +168,38 @@ public class ToDoControllerTest {
                                             }
                                 """));
     }
+
+
+    /*@Test
+    public void updatedToDo() throws Exception {
+        ToDo toDoOld = new ToDo(2L, "Privat", "lernen", false);
+        ToDo toDoNew = new ToDo(2L, "Privat", "lernen", true);
+        when(this.toDoService.getToDo(any(Long.class))).thenReturn(toDoOld);
+        when(this.toDoService.updatedToDo(any(ToDo.class))).thenReturn(toDoNew);
+        when(this.modelMapper.map(any(), any())).thenReturn(toDoNew);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/todo")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                                {
+                                                "id": 2,
+                                                "title": "Arbeit",
+                                                "description": "lernen",
+                                                "status": true
+                                            }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        """
+                                {
+                                                                                "id": 2,
+                                                                                "title": "Arbeit",
+                                                                                "description": "lernen",
+                                                                                "status": true
+                                                                            }
+                                                                """));
+    }*/
 
 
 }
