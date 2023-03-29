@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import trainingSpringBoot.training.entity.Role;
 
 @RequiredArgsConstructor
 @Configuration
@@ -19,14 +20,22 @@ public class UserDetailsService {
         UserDetails user = User.builder()
                 .username("user")
                 .password(passwordEncoder.encode("userPassword"))
-                .roles("USER")
+                .authorities(Role.MEMBER.getGrantedAuthorities())
                 .build();
+
         UserDetails admin = User.builder()
                 .username("admin")
                 .password(passwordEncoder.encode("adminPassword"))
-                .roles("USER", "ADMIN")
+                .authorities(Role.ADMIN.getGrantedAuthorities())
                 .build();
-        return new InMemoryUserDetailsManager(user, admin);
+
+        UserDetails analyst = User.builder()
+                .username("analyst")
+                .password(passwordEncoder.encode("analystPassword"))
+                .authorities(Role.ANALYST.getGrantedAuthorities())
+                .build();
+
+        return new InMemoryUserDetailsManager(user, admin, analyst);
 
     }
 
