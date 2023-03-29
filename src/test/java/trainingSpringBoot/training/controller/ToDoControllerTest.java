@@ -9,12 +9,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import trainingSpringBoot.training.Config.TestPasswordEncoderConfig;
+import trainingSpringBoot.training.config.PasswordEncoderConifg;
 import trainingSpringBoot.training.entity.ToDo;
+import trainingSpringBoot.training.security.SecurityConfig;
 import trainingSpringBoot.training.service.ToDoService;
 
 import java.util.ArrayList;
@@ -23,11 +29,15 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-//import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+//@Import(TestPasswordEncoderConfig.class)
+
+
+//@ContextConfiguration(classes = {SecurityConfig.class})
+@WithMockUser
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(ToDoController.class)
 public class ToDoControllerTest {
@@ -53,6 +63,7 @@ public class ToDoControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getAllToDos() throws Exception {
         when(this.toDoService.getAllTodos()).thenReturn(this.toDoList);
 
@@ -89,7 +100,8 @@ public class ToDoControllerTest {
 
 
     @Test
-    public void creatdToDo() throws Exception {
+    @WithMockUser
+    public void createdToDo() throws Exception {
         ToDo toDoSix = new ToDo(6L, "Sport", "laufen", true);
         when(this.toDoService.createToDo(any())).thenReturn(toDoSix);
 
@@ -111,6 +123,7 @@ public class ToDoControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getToDo() throws Exception {
         when(this.toDoService.getToDo(1L)).thenReturn((ToDo) this.toDoOne);
 
@@ -146,13 +159,16 @@ public class ToDoControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void deleteToDo() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todo/3"))
+        this.mockMvc.perform(delete("/todo/3")
+                        .with(csrf()))
                 .andExpect(status().isNoContent());
     }
 
 
     @Test
+    @WithMockUser
     public void updatedToDo() throws Exception {
         ToDo updatedToDo = new ToDo(2L, "Update", "lernen", false);
         when(this.toDoService.updatedToDo(any())).thenReturn(updatedToDo);

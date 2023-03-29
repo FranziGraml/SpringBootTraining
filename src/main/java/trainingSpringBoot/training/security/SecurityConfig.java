@@ -2,23 +2,29 @@ package trainingSpringBoot.training.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
+import static org.springframework.security.config.Customizer.withDefaults;
 
+@Configuration
+//@EnableWebSecurity
+public class SecurityConfig {
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests((auth) -> auth
                         .requestMatchers("/index.html").permitAll()
-                .anyRequest().authenticated())
+                        .requestMatchers(HttpMethod.DELETE, "/**").permitAll()
+                        .anyRequest().authenticated())
+
                 //.and()
-                .httpBasic();
+                .csrf()
+                .disable()
+                .httpBasic(withDefaults());
         return http.build();
     }
 
