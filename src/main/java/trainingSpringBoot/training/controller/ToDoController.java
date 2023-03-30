@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trainingSpringBoot.training.dto.ToDoCreateDTO;
 import trainingSpringBoot.training.dto.ToDoUpdateDTO;
@@ -25,6 +26,7 @@ public class ToDoController {
     private final ToDoService toDoService;
     private final ModelMapper modelMapper;
 
+    @PreAuthorize("hasRole('TODO_CREATE')")
     @PostMapping
     public ResponseEntity<ToDo> createToDo(@Valid @RequestBody ToDoCreateDTO toDoCreateDTO){
         ToDo toDo = new ToDo();
@@ -39,6 +41,7 @@ public class ToDoController {
     }
 
 
+    @PreAuthorize("hasRole('TODO_UPDATE')")
     @PutMapping
     public ResponseEntity<ToDo> updatedToDo(@Valid @RequestBody ToDoUpdateDTO toDoUpdateDTO){
         ToDo toDo = new ToDo();
@@ -55,6 +58,7 @@ public class ToDoController {
        // return this.toDoService.updatedToDo(toDo);
     }
 
+    @PreAuthorize("hasRole('TODO_DELETE')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id")Long id){
         toDoService.deleteTodo(id);
@@ -62,17 +66,21 @@ public class ToDoController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PreAuthorize("hasRole('TODO_READ')")
     @GetMapping("/{id}")
     public ResponseEntity<ToDo> getToDo(@PathVariable("id")Long id){
         return ResponseEntity.ok(toDoService.getToDo(id));
     }
 
+    @PreAuthorize("hasRole('TODO_READ_ALL')")
     @GetMapping
     public ResponseEntity  <List<ToDo>>getAllToDos(){
         List<ToDo> allToDos = toDoService.getAllTodos();
         return ResponseEntity.ok(toDoService.getAllTodos());
     }
 
+
+    @PreAuthorize("hasRole('TODO_READ_ALL')")
     @GetMapping(value = "/completed")
     public ResponseEntity <List<ToDo>>getAllCompletedToDo(){
         List<ToDo> allCompletedToDos = toDoService.getAllCompletedToDo();
@@ -80,6 +88,7 @@ public class ToDoController {
         //return new ResponseEntity<>(toDoService.getAllCompletedToDo(),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('TODO_READ_ALL')")
     @GetMapping(value = "/open")
     public ResponseEntity <List<ToDo>>getAllOpenToDo(){
         List<ToDo> allOpenToDos = toDoService.getAllOpenToDo();
@@ -87,6 +96,8 @@ public class ToDoController {
         //return new ResponseEntity<>(toDoService.getAllOpenToDo(),HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasRole('TODO_READ_ALL')")
     @GetMapping(value = "/completed/count")
     public ResponseEntity <Long> countAllCompletedToDos(){
         return ResponseEntity.ok(toDoService.countAllCompletedToDos());
@@ -94,6 +105,8 @@ public class ToDoController {
 
     }
 
+
+    @PreAuthorize("hasRole('TODO_READ_ALL')")
     @GetMapping(value = "/open/count")
     public ResponseEntity  <Long> countAllOpenToDos(){
         return ResponseEntity.ok(toDoService.countAllOpenToDos());
