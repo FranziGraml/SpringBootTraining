@@ -16,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import trainingSpringBoot.training.Config.TestPasswordEncoderConfig;
 import trainingSpringBoot.training.config.PasswordEncoderConifg;
@@ -155,7 +156,7 @@ public class ToDoControllerTest {
                                                                                 
                                         """
                         )
-                );
+                )
     }
 
     @Test
@@ -186,36 +187,38 @@ public class ToDoControllerTest {
     }
 
 
-    /*@Test
-    public void updatedToDo() throws Exception {
-        ToDo toDoOld = new ToDo(2L, "Privat", "lernen", false);
-        ToDo toDoNew = new ToDo(2L, "Privat", "lernen", true);
-        when(this.toDoService.getToDo(any(Long.class))).thenReturn(toDoOld);
-        when(this.toDoService.updatedToDo(any(ToDo.class))).thenReturn(toDoNew);
-        when(this.modelMapper.map(any(), any())).thenReturn(toDoNew);
-
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/todo")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                                {
-                                                "id": 2,
-                                                "title": "Arbeit",
-                                                "description": "lernen",
-                                                "status": true
-                                            }
-                                """))
-                .andExpect(status().isOk())
-                .andExpect(content().json(
-                        """
-                                {
-                                                                                "id": 2,
-                                                                                "title": "Arbeit",
-                                                                                "description": "lernen",
-                                                                                "status": true
-                                                                            }
-                                                                """));
-    }*/
+    /*
+     Test
+     public void updatedToDo() throws Exception {
+         ToDo toDoOld = new ToDo(2L, "Privat", "lernen", false);
+         ToDo toDoNew = new ToDo(2L, "Privat", "lernen", true);
+         when(this.toDoService.getToDo(any(Long.class))).thenReturn(toDoOld);
+         when(this.toDoService.updatedToDo(any(ToDo.class))).thenReturn(toDoNew);
+         when(this.modelMapper.map(any(), any())).thenReturn(toDoNew);
+     
+     
+         mockMvc.perform(MockMvcRequestBuilders.put("/todo")
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .content("""
+                                 {
+                                                 "id": 2,
+                                                 "title": "Arbeit",
+                                                 "description": "lernen",
+                                                 "status": true
+                                             }
+                                 """))
+                 .andExpect(status().isOk())
+                 .andExpect(content().json(
+                         """
+                                 {
+                                                                                 "id": 2,
+                                                                                 "title": "Arbeit",
+                                                                                 "description": "lernen",
+                                                                                 "status": true
+                                                                             }
+                                                                 """));
+     }
+    */
 
 
 }

@@ -2,8 +2,7 @@ package trainingSpringBoot.training.database;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import trainingSpringBoot.training.entity.ToDo;
@@ -22,13 +21,11 @@ public class DatabasePopulator implements CommandLineRunner {
 
     private final ToDoService toDoService;
 
-    @Value("${franziKey}")
-    public String franziKey;
+
 
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(franziKey);
         final ToDo toDo1 = new ToDo(null,"Haushalt","waschen",true);
         final ToDo toDo2 = new ToDo(null,"Privat","lernen",false);
         final ToDo toDo3 = new ToDo(null,"Arbeit","Mails",true);

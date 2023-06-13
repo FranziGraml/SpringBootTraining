@@ -26,11 +26,11 @@ public class ToDoController {
     private final ToDoService toDoService;
     private final ModelMapper modelMapper;
 
-    @PreAuthorize("hasRole('TODO_CREATE')")
+   // @PreAuthorize("hasRole('ADMIN') or hasRole('MEMBER')")
     @PostMapping
     public ResponseEntity<ToDo> createToDo(@Valid @RequestBody ToDoCreateDTO toDoCreateDTO){
-        ToDo toDo = new ToDo();
-        toDo.setDescription(toDoCreateDTO.getDescription());
+        //ToDo toDo = new ToDo();
+        //toDo.setDescription(toDoCreateDTO.getDescription());
 
         ToDo body = this.toDoService.createToDo(modelMapper.map(toDoCreateDTO,ToDo.class));
         HttpHeaders headers = new HttpHeaders();
@@ -41,15 +41,15 @@ public class ToDoController {
     }
 
 
-    @PreAuthorize("hasRole('TODO_UPDATE')")
+   // @PreAuthorize("hasRole('ADMIN') or hasRole('MEMBER')")
     @PutMapping
     public ResponseEntity<ToDo> updatedToDo(@Valid @RequestBody ToDoUpdateDTO toDoUpdateDTO){
-        ToDo toDo = new ToDo();
+       /* ToDo toDo = new ToDo();
         toDo.setId(toDoUpdateDTO.getId());
         toDo.setTitle(toDoUpdateDTO.getTitle());
         toDo.setDescription(toDoUpdateDTO.getDescription());
-        toDo.setStatus(toDoUpdateDTO.getStatus());
-        modelMapper.map(toDoUpdateDTO, toDo);
+        toDo.setStatus(toDoUpdateDTO.getStatus());*/
+         this.toDoService.updatedToDo(modelMapper.map(toDoUpdateDTO, ToDo.class));
 
         HttpStatusCode httpStatusCode = HttpStatusCode.valueOf(200);
         ResponseEntity<ToDo> response = new ResponseEntity<>(httpStatusCode);
@@ -58,7 +58,7 @@ public class ToDoController {
        // return this.toDoService.updatedToDo(toDo);
     }
 
-    @PreAuthorize("hasRole('TODO_DELETE')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id")Long id){
         toDoService.deleteTodo(id);
@@ -66,13 +66,13 @@ public class ToDoController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasRole('TODO_READ')")
+    //@PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public ResponseEntity<ToDo> getToDo(@PathVariable("id")Long id){
         return ResponseEntity.ok(toDoService.getToDo(id));
     }
 
-    @PreAuthorize("hasRole('TODO_READ_ALL')")
+    //@PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity  <List<ToDo>>getAllToDos(){
         List<ToDo> allToDos = toDoService.getAllTodos();
@@ -80,7 +80,7 @@ public class ToDoController {
     }
 
 
-    @PreAuthorize("hasRole('TODO_READ_ALL')")
+    //@PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/completed")
     public ResponseEntity <List<ToDo>>getAllCompletedToDo(){
         List<ToDo> allCompletedToDos = toDoService.getAllCompletedToDo();
@@ -88,7 +88,7 @@ public class ToDoController {
         //return new ResponseEntity<>(toDoService.getAllCompletedToDo(),HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('TODO_READ_ALL')")
+    //@PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/open")
     public ResponseEntity <List<ToDo>>getAllOpenToDo(){
         List<ToDo> allOpenToDos = toDoService.getAllOpenToDo();
@@ -97,7 +97,7 @@ public class ToDoController {
     }
 
 
-    @PreAuthorize("hasRole('TODO_READ_ALL')")
+   // @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/completed/count")
     public ResponseEntity <Long> countAllCompletedToDos(){
         return ResponseEntity.ok(toDoService.countAllCompletedToDos());
@@ -106,7 +106,7 @@ public class ToDoController {
     }
 
 
-    @PreAuthorize("hasRole('TODO_READ_ALL')")
+    //@PreAuthorize("hasRole('TODO_READ_ALL')")
     @GetMapping(value = "/open/count")
     public ResponseEntity  <Long> countAllOpenToDos(){
         return ResponseEntity.ok(toDoService.countAllOpenToDos());
